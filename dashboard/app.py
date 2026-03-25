@@ -1,16 +1,22 @@
 import streamlit as st
 import pandas as pd
-import time
+from streamlit_autorefresh import st_autorefresh
 
-time.sleep(5)
-st.rerun()
+# config da página
+st.set_page_config(
+    page_title="Fraud Detection",
+    page_icon="🚨",
+    layout="wide"
+)
+
+# auto refresh
+st_autorefresh(interval=5000, key="refresh")
+
 # carregar dados
 df = pd.read_csv("data/transacoes.csv")
-
-# tratamento
 df["data"] = pd.to_datetime(df["data"])
 
-# regra de fraude
+# regras
 df["risco"] = df["valor"].apply(lambda x: 50 if x > 3000 else 0)
 
 def classificar(score):
@@ -22,49 +28,56 @@ def classificar(score):
 
 df["classificacao"] = df["risco"].apply(classificar)
 
-# 🎨 SIDEBAR (filtros)
-st.sidebar.title("🔎 Filtros")
+# SIDEBAR
+st.sidebar.title("⚙️ Configurações")
 
-filtro = st.sidebar.selectbox(
+filtro = st.sidebar.multiselect(
     "Classificação",
-    ["Todos", "ALTO_RISCO", "MEDIO_RISCO", "BAIXO_RISCO"]
+    df["classificacao"].unique(),
+    default=df["classificacao"].unique()
 )
 
-if filtro != "Todos":
-    df = df[df["classificacao"] == filtro]
+df = df[df["classificacao"].isin(filtro)]
 
-# 🎯 TÍTULO
-st.title("🚨 Fraud Detection Dashboard")
+# HEADER
+st.markdown("## 🚨 Fraud Detection System")
+st.markdown("Monitoramento em tempo real de transações suspeitas")
 
-# 📊 MÉTRICAS
-col1, col2, col3 = st.columns(3)
+# KPIs
+col1, col2, col3, col4 = st.columns(4)
 
-col1.metric("Total de Transações", len(df))
-col2.metric("Fraudes Detectadas", len(df[df["classificacao"] == "ALTO_RISCO"]))
-col3.metric("Ticket Médio", round(df["valor"].mean(), 2))
+col1.metric("Transações", len(df))
+col2.metric("Fraudes", len(df[df["classificacao"] == "ALTO_RISCO"]))
+col3.metric("Ticket Médio", f"R$ {df['valor'].mean():.2f}")
+col4.metric("Maior Transação", f"R$ {df['valor'].max():.2f}")
 
-# 📈 GRÁFICO 1
-st.subheader("Fraudes por País")
-st.bar_chart(df[df["classificacao"] == "ALTO_RISCO"]["local"].value_counts())
+st.divider()
 
-# 📉 GRÁFICO 2 (evolução)
-st.subheader("Evolução das Transações")
-st.line_chart(df.groupby(df["data"].dt.date).size())
+# GRÁFICOS
+col1, col2 = st.columns(2)
 
-# ⚠️ INSIGHTS AUTOMÁTICOS
+with col1:
+    st.subheader("🌎 Fraudes por País")
+    st.bar_chart(df[df["classificacao"] == "ALTO_RISCO"]["local"].value_counts())
+
+with col2:
+    st.subheader("📈 Evolução Temporal")
+    st.line_chart(df.groupby(df["data"].dt.date).size())
+
+st.divider()
+
+# INSIGHTS
 st.subheader("🧠 Insights Automáticos")
 
 fraudes = df[df["classificacao"] == "ALTO_RISCO"]
 
 if len(fraudes) > 100:
-    st.error("🚨 Alto volume de fraudes detectado!")
-
+    st.error("🚨 Pico anormal de fraudes detectado")
 elif len(fraudes) > 50:
-    st.warning("⚠️ Volume moderado de fraudes")
-
+    st.warning("⚠️ Aumento moderado de fraudes")
 else:
-    st.success("✅ Baixo risco detectado")
+    st.success("✅ Sistema sob controle")
 
-# tabela
-st.subheader("Transações Suspeitas")
+# TABELA
+st.subheader("🔍 Transações Suspeitas")
 st.dataframe(fraudes.sort_values(by="valor", ascending=False).head(20))

@@ -1,28 +1,28 @@
 Pipeline de dados com PostgreSQL simulando ambiente real de fintech# 🚨 Fraud Detection System
 
-## 📌 Sobre o Projeto
+## Sobre o Projeto
 
 Sistema completo de detecção de fraudes simulando o ambiente de uma fintech, com pipeline de dados, API em tempo real e dashboard interativo.
 
 ---
 
-## 🎯 Objetivo
+## Objetivo
 
 Identificar transações suspeitas com base em regras de negócio e fornecer visualização em tempo real para análise.
 
 ---
 
-## 🧠 Funcionalidades
+## Funcionalidades
 
-* 🔄 Geração e tratamento de dados (ETL)
-* 🧮 Motor de detecção de fraude (regras + score)
-* 🌐 API REST para análise em tempo real
-* 📊 Dashboard interativo com atualização automática
-* 🧠 Insights automáticos baseados nos dados
+* Geração e tratamento de dados (ETL)
+* Motor de detecção de fraude (regras + score)
+* API REST para análise em tempo real
+* Dashboard interativo com atualização automática
+* Insights automáticos baseados nos dados
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 * Python
 * Pandas
@@ -32,43 +32,33 @@ Identificar transações suspeitas com base em regras de negócio e fornecer vis
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 ### 1. Clonar o repositório
 
-```
 git clone https://github.com/seu-usuario/fraud-detection.git
 cd fraud-detection
-```
 
 ### 2. Criar ambiente virtual
 
-```
 python -m venv venv
 venv\Scripts\activate
-```
 
 ### 3. Instalar dependências
 
-```
 pip install -r requirements.txt
-```
 
 ### 4. Rodar API
 
-```
 python api/app.py
-```
 
 ### 5. Rodar Dashboard
 
-```
 streamlit run dashboard/app.py
-```
 
 ---
 
-## 📊 Dashboard
+## Dashboard
 
 O dashboard apresenta:
 
@@ -80,13 +70,33 @@ O dashboard apresenta:
 
 ---
 
-## 🧠 Insights
+1. Sobre o projeto
+
+Desenvolvi um sistema de detecção de fraudes simulando uma fintech. Criei um pipeline de dados, um motor de regras para classificação de risco, uma API em Flask e um dashboard em Streamlit para análise em tempo real.
+
+2. “Como você detecta fraude?”
+
+Utilizo regras de negócio baseadas em valor da transação e padrões. Cada transação recebe um score de risco e é classificada como baixo, médio ou alto risco.
+
+3. “Como isso escalaria?”
+
+Migraria os dados para um banco como PostgreSQL, adicionaria processamento em tempo real com streaming e evoluiria para modelos de Machine Learning.
+
+4. “Por que usar Streamlit?”
+
+Pela rapidez de prototipação e capacidade de transformar análise em produto visual interativo.
+
+5. “O que você melhoraria?”
+
+Implementaria ML, autenticação de usuários e deploy completo com cloud + banco integrado.
+
+## Insights
 
 O sistema identifica automaticamente padrões de risco e alerta quando há aumento significativo de fraudes.
 
 ---
 
-## 🏆 Diferenciais
+## Diferenciais
 
 * Arquitetura semelhante a sistemas reais
 * Integração entre API e visualização
@@ -95,7 +105,7 @@ O sistema identifica automaticamente padrões de risco e alerta quando há aumen
 
 ---
 
-## 📌 Próximos Passos
+## Próximos Passos
 
 * Integração com PostgreSQL
 * Deploy em nuvem
@@ -104,6 +114,6 @@ O sistema identifica automaticamente padrões de risco e alerta quando há aumen
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
-Jonatas Soares
+Jonatas Chaves
