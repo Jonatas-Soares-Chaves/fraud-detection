@@ -1,5 +1,6 @@
+streamlit==1.32.0
 pandas
-streamlit
 streamlit-autorefresh
 flask
 psycopg2-binary
+altair==4.2.2
