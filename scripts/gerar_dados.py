@@ -7,9 +7,8 @@ dados = []
 for i in range(2000):
     usuario = random.randint(1, 100)
 
-    # simula valores normais + alguns suspeitos
     if random.random() < 0.05:
-        valor = random.uniform(3000, 10000)  # suspeito
+        valor = random.uniform(3000, 10000)
     else:
         valor = random.uniform(10, 1000)
 
@@ -22,4 +21,4 @@ df = pd.DataFrame(dados, columns=["usuario_id", "valor", "data", "local"])
 
 df.to_csv("data/transacoes.csv", index=False)
 
-print("Dados gerados com sucesso!")
+print("Dados gerados!")
