@@ -2,21 +2,17 @@ import streamlit as st
 import pandas as pd
 from streamlit_autorefresh import st_autorefresh
 
-# config da página
 st.set_page_config(
     page_title="Fraud Detection",
     page_icon="🚨",
     layout="wide"
 )
 
-# auto refresh
 st_autorefresh(interval=5000, key="refresh")
 
-# carregar dados
 df = pd.read_csv("data/transacoes.csv")
 df["data"] = pd.to_datetime(df["data"])
 
-# regras
 df["risco"] = df["valor"].apply(lambda x: 50 if x > 3000 else 0)
 
 def classificar(score):
@@ -28,7 +24,6 @@ def classificar(score):
 
 df["classificacao"] = df["risco"].apply(classificar)
 
-# SIDEBAR
 st.sidebar.title("⚙️ Configurações")
 
 filtro = st.sidebar.multiselect(
@@ -39,11 +34,9 @@ filtro = st.sidebar.multiselect(
 
 df = df[df["classificacao"].isin(filtro)]
 
-# HEADER
 st.markdown("## 🚨 Fraud Detection System")
 st.markdown("Monitoramento em tempo real de transações suspeitas")
 
-# KPIs
 col1, col2, col3, col4 = st.columns(4)
 
 col1.metric("Transações", len(df))
@@ -53,7 +46,6 @@ col4.metric("Maior Transação", f"R$ {df['valor'].max():.2f}")
 
 st.divider()
 
-# GRÁFICOS
 col1, col2 = st.columns(2)
 
 with col1:
@@ -66,7 +58,6 @@ with col2:
 
 st.divider()
 
-# INSIGHTS
 st.subheader("🧠 Insights Automáticos")
 
 fraudes = df[df["classificacao"] == "ALTO_RISCO"]
@@ -78,6 +69,5 @@ elif len(fraudes) > 50:
 else:
     st.success("✅ Sistema sob controle")
 
-# TABELA
 st.subheader("🔍 Transações Suspeitas")
 st.dataframe(fraudes.sort_values(by="valor", ascending=False).head(20))
